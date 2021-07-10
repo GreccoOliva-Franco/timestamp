@@ -21,21 +21,17 @@ app.get("/", function (req, res) {
 // date parser getter
 app.get("/api/:date?", (req, res) => {
 	const data = req.params.date;
-	console.log('           START               <-------------')
-	console.log(data)
 	let response = {};
 	let ms;
 	let dateString;
 
 	if ( data === undefined ) {
-		console.log('Undefined')
 		date = new Date();
 		ms = date.getTime();
 		dateString = date.toUTCString();
 
 		response = {'unix': ms, 'utc': dateString};
 	} else if ( /^\d*$/.test(data)) {
-		console.log("int")
 		ms = parseInt(data);
 		date = new Date(ms);
 		dateString = date.toUTCString();
@@ -43,21 +39,15 @@ app.get("/api/:date?", (req, res) => {
 		response = {'unix': ms, 'utc': dateString};
 	} else {
 		ms = Date.parse(data);
-		console.log(ms)
 		date = new Date(ms);
 		dateString = date.toUTCString();
 
 		if ( dateString == 'Invalid Date' ) {
-			console.log('Invalid date')
 			response = {'error': "Invalid Date"};
 		} else {
-			console.log('Valid date')
 			response = {'unix': ms, 'utc': dateString};
 		}
 	}
-
-	console.log(response)
-	console.log('            END             <-------------')
 
 	res.json(response)
 });
